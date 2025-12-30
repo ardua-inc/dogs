@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="top-actions">
+    <a href="{{ url_for('dogs.index') }}" class="btn btn-light">Back to All Dogs</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Add New Dog</h3>
+    </div>
+    <form method="POST">
+        <div class="form-row">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="breed">Breed:</label>
+                <input type="text" id="breed" name="breed">
+            </div>
+        </div>
+        <div class="form-row">
+            <div>
+                <label for="birthdate">Birth Date:</label>
+                <input type="date" id="birthdate" name="birthdate">
+            </div>
+            <div>
+                <label for="deathdate">Death Date:</label>
+                <input type="date" id="deathdate" name="deathdate">
+            </div>
+        </div>
+        <div class="form-row">
+            <div>
+                <label for="microchip_company">Microchip Company:</label>
+                <input type="text" id="microchip_company" name="microchip_company" placeholder="e.g., HomeAgain, AVID">
+            </div>
+            <div>
+                <label for="microchip_id">Microchip ID:</label>
+                <input type="text" id="microchip_id" name="microchip_id">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Dog</button>
+    </form>
+</div>
+{% endblock %}

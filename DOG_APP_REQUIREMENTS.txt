@@ -1,0 +1,129 @@
+Comanche Dogs Application Requirements Definition
+1. Overview
+The Comanche Dogs application is a web-based system for managing dog records, including their details, photos, medical records, and vaccination schedules. It supports multiple user roles with role-based access control and allows flexible configuration for development and production environments. The application is implemented using Flask and supports SQLite, MySQL, or PostgreSQL databases.
+1.1 Purpose
+The application enables users to:
+
+Manage dog profiles (name, breed, birthdate, deathdate, status).
+Upload and manage photos and medical records for dogs.
+Track vaccination schedules with alerts for upcoming vaccinations.
+Administer user accounts with different access levels (admin, doctor, viewer).
+Operate in both development and production environments with configurable database and file storage settings.
+
+1.2 Scope
+The system supports:
+
+Web interface for user interaction.
+Role-based authentication (admin, doctor, viewer).
+File uploads for photos (PNG, JPG, JPEG) and medical records (TXT, PDF, PNG, JPG, JPEG).
+Modular database support (SQLite, MySQL, PostgreSQL).
+Flexible configuration via dog_app.conf loaded from the current working directory or /etc/dog_app.conf.
+Example configuration template (dog_app.conf.example) for easy setup.
+
+2. Stakeholders
+
+Administrators: Manage users, dogs, photos, medical records, and vaccinations.
+Doctors: Manage dog details, photos, medical records, and vaccinations.
+Viewers: View dog details, photos, medical records, and vaccination alerts.
+Developers/DevOps: Configure and deploy the application for development or production.
+
+3. Functional Requirements
+3.1 User Management
+
+UR1: The system shall support user registration by administrators via a web interface (/register).
+Fields: username, password, role (admin/doctor/viewer), full name, email.
+Constraint: Username must be unique.
+
+
+UR2: The system shall support user login with username and password (/login).
+Default credentials: admin / admin123.
+
+
+UR3: The system shall allow users to change their passwords (/change_password).
+Requires current password verification.
+
+
+UR4: Administrators shall manage users (/manage_users):
+View all users.
+Edit user details (username, role, full name, email, active status).
+Delete users (except their own account).
+
+
+UR5: The system shall enforce role-based access control:
+Admin: Full access to all features.
+Doctor: Add/edit/delete dogs, photos, medical records, and vaccinations.
+Viewer: Read-only access to dog details, photos, medical records, and vaccination alerts.
+
+
+
+3.2 Dog Management
+
+DR1: The system shall allow admins and doctors to add dogs via a web interface (/add_dog).
+Fields: name (required), breed (optional), birthdate (optional), deathdate (optional).
+Status: Automatically set to "Deceased" if deathdate is provided, else "Living".
+
+
+DR2: The system shall allow all users to view dog details (/dog/<dog_id>).
+Display: name, breed, birthdate, deathdate, status, calculated age, photos, medical records, vaccinations.
+
+
+DR3: The system shall allow admins and doctors to edit dog details (/edit_dog/<dog_id>).
+Fields: name, breed, birthdate, deathdate, status (updated automatically).
+
+
+DR4: The system shall calculate and display a dog’s age based on birthdate (format: X years, Y months, Z days).
+
+3.3 Photo Management
+
+PR1: The system shall allow admins and doctors to upload photos for a dog (/edit_dog/<dog_id>).
+Supported formats: PNG, JPG, JPEG.
+Maximum file size: 16MB.
+Generate thumbnails (200x200 pixels).
+Store photos in Uploads/dog_photos/ with unique filenames (UUID + original filename).
+First uploaded photo is automatically set as primary.
+
+
+PR2: The system shall allow admins and doctors to set a primary photo (/set_primary_photo/<dog_id>/<photo_id>).
+Only one photo per dog is primary, indicated by a checkmark.
+
+
+PR3: The system shall allow admins and doctors to delete photos (/delete_photo/<dog_id>/<photo_id>).
+Delete both original and thumbnail files.
+
+
+PR4: The system shall display photos in the dog details view (/dog/<dog_id>), with thumbnails and a checkmark for the primary photo.
+
+3.4 Medical Records Management
+
+MR1: The system shall allow admins and doctors to upload medical records for a dog (/edit_dog/<dog_id>).
+Supported formats: TXT, PDF, PNG, JPG, JPEG.
+Maximum file size: 16MB.
+Fields: description (optional), category (optional), record date (defaults to current date).
+Store records in Uploads/medical_records/ with unique filenames (UUID + original filename).
+
+
+MR2: The system shall allow admins and doctors to edit medical records (/edit_medical_record/<dog_id>/<record_id>).
+Update description, category, record date, or replace the file.
+
+
+MR3: The system shall allow admins and doctors to delete medical records (/delete_medical_record/<dog_id>/<record_id>).
+Delete the associated file.
+
+
+MR4: The system shall display medical records in the dog details view (/dog/<dog_id>).
+
+3.5 Vaccination Management
+
+VR1: The system shall allow admins and doctors to add vaccination records for a dog (/edit_dog/<dog_id>).
+Fields: vaccine type, date administered, next due date (optional), notes (optional), certificate ID (optional).
+
+
+VR2: The system shall display vaccination records in the dog details view (/dog/<dog_id>).
+VR3: The system shall display alerts for upcoming vaccinations (due within 30 days) on the homepage (/).
+
+3.6 Configuration
+
+CR1: The system shall load configuration from dog_app.conf in the current working directory or /etc/dog_app.conf (production).
+Format: INI with [General] and `[Database
+
+

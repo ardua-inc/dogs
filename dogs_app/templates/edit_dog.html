@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="top-actions">
+    <a href="{{ url_for('dogs.dog_detail', dog_id=dog.id) }}" class="btn btn-light">Back to {{ dog.name }}</a>
+</div>
+
+<!-- Dog Info Card -->
+<div class="card">
+    <div class="card-header">
+        <h3>Edit Dog: {{ dog.name }}</h3>
+        {% if current_user.role == 'admin' %}
+        <form method="POST" action="{{ url_for('dogs.delete_dog', dog_id=dog.id) }}" style="margin:0;" onsubmit="return confirm('Are you sure you want to delete this dog and all associated records?');">
+            <button type="submit" class="btn btn-danger btn-sm">Delete Dog</button>
+        </form>
+        {% endif %}
+    </div>
+    <form method="POST">
+        <input type="hidden" name="dog_update" value="true">
+        <div class="form-row">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ dog.name }}" required>
+            </div>
+            <div>
+                <label for="breed">Breed:</label>
+                <input type="text" id="breed" name="breed" value="{{ dog.breed or '' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div>
+                <label for="birthdate">Birth Date:</label>
+                <input type="date" id="birthdate" name="birthdate" value="{{ dog.birthdate or '' }}">
+            </div>
+            <div>
+                <label for="deathdate">Death Date:</label>
+                <input type="date" id="deathdate" name="deathdate" value="{{ dog.deathdate or '' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div>
+                <label for="microchip_company">Microchip Company:</label>
+                <input type="text" id="microchip_company" name="microchip_company" value="{{ dog.microchip_company or '' }}" placeholder="e.g., HomeAgain, AVID">
+            </div>
+            <div>
+                <label for="microchip_id">Microchip ID:</label>
+                <input type="text" id="microchip_id" name="microchip_id" value="{{ dog.microchip_id or '' }}">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Dog</button>
+    </form>
+</div>
+
+<!-- Photos Card -->
+<div class="card">
+    <div class="card-header">
+        <h3>Photos</h3>
+    </div>
+    {% if photos %}
+    <div class="photo-gallery sortable" id="photo-gallery" data-dog-id="{{ dog.id }}">
+        {% for photo in photos %}
+        <div class="photo-item {% if photo.is_primary %}primary{% endif %}" data-photo-id="{{ photo.id }}">
+            <img src="{{ url_for('photos.uploaded_file', filename='dog_photos/thumb_md_' + photo.filename) }}"
+                 alt="{{ photo.original_filename }}"
+                 onclick="openLightbox({{ loop.index0 }})"
+                 loading="lazy">
+            {% if photo.is_primary %}
+            <span class="primary-badge">Primary</span>
+            {% endif %}
+            <div class="photo-actions">
+                <a href="{{ url_for('photos.set_primary_photo', dog_id=dog.id, photo_id=photo.id) }}">Set Primary</a>
+                <a href="#" onclick="editPhotoCaption({{ photo.id }}, '{{ photo.caption or '' }}', '{{ photo.taken_date or '' }}'); return false;">Edit</a>
+                <a href="{{ url_for('photos.delete_photo', dog_id=dog.id, photo_id=photo.id) }}" class="delete" onclick="return confirm('Delete this photo?');">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-content">No photos yet. Upload some below.</p>
+    {% endif %}
+
+    <div class="upload-section">
+        <h4>Upload Photos</h4>
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('photos.upload_photo', dog_id=dog.id) }}">
+            <input type="file" name="photos" accept="image/*" multiple>
+            <input type="text" name="caption" placeholder="Caption (optional)">
+            <input type="date" name="taken_date" placeholder="Date taken">
+            <button type="submit">Upload Photo(s)</button>
+        </form>
+    </div>
+</div>
+
+<div id="lightbox" class="lightbox">
+    <span class="close" onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-img" src="">
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+    <a class="prev" onclick="changeImage(-1)">&#10094;</a>
+    <a class="next" onclick="changeImage(1)">&#10095;</a>
+</div>
+
+<!-- Edit Photo Modal -->
+<div id="photo-edit-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="closePhotoEditModal()">&times;</span>
+        <h3>Edit Photo</h3>
+        <form method="POST" id="photo-edit-form">
+            <input type="hidden" name="photo_id" id="edit-photo-id">
+            <label for="edit-caption">Caption:</label>
+            <input type="text" id="edit-caption" name="caption">
+            <label for="edit-taken-date">Date Taken:</label>
+            <input type="date" id="edit-taken-date" name="taken_date">
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</div>
+
+<!-- Medical Records Card -->
+<div class="card">
+    <div class="card-header">
+        <h3>Medical Records</h3>
+    </div>
+    {% if medical_records %}
+    <div class="record-grid">
+        {% for record in medical_records|sort(attribute='record_date', reverse=true) %}
+        <div class="record-box">
+            {% if record.category %}
+            <span class="category-badge">{{ record.category }}</span>
+            {% endif %}
+            <h4><a href="{{ url_for('photos.uploaded_file', filename='medical_records/' + record.filename) }}" target="_blank">{{ record.original_filename }}</a></h4>
+            {% if record.description %}
+            <p class="record-notes">{{ record.description }}</p>
+            {% endif %}
+            <p class="record-date">{{ record.record_date }}</p>
+            <div class="record-box-actions">
+                <a href="{{ url_for('medical.edit_medical_record', dog_id=dog.id, record_id=record.id) }}">Edit</a>
+                <a href="{{ url_for('medical.delete_medical_record', dog_id=dog.id, record_id=record.id) }}" class="delete" onclick="return confirm('Delete this record?');">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-content">No medical records yet.</p>
+    {% endif %}
+
+    <div class="upload-section">
+        <h4>Upload Medical Record</h4>
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('medical.upload_medical_record', dog_id=dog.id) }}">
+            <input type="file" name="record" accept=".txt,.pdf,.png,.jpg,.jpeg" required>
+            <input type="text" name="description" placeholder="Description">
+            <select name="category">
+                <option value="">Select Category</option>
+                <option value="Vaccination">Vaccination</option>
+                <option value="Lab Results">Lab Results</option>
+                <option value="X-Ray/Imaging">X-Ray/Imaging</option>
+                <option value="Surgery Report">Surgery Report</option>
+                <option value="Prescription">Prescription</option>
+                <option value="Vet Visit Notes">Vet Visit Notes</option>
+                <option value="Dental Records">Dental Records</option>
+                <option value="Emergency Care">Emergency Care</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="date" name="record_date">
+            <button type="submit">Upload Record</button>
+        </form>
+    </div>
+</div>
+
+<!-- Vaccinations Card -->
+<div class="card">
+    <div class="card-header">
+        <h3>Vaccinations</h3>
+    </div>
+    {% if vaccinations %}
+    <div class="record-grid">
+        {% for vaccination in vaccinations|sort(attribute='next_due_date', reverse=false) %}
+        <div class="record-box">
+            <h4>{{ vaccination.vaccine_type }}</h4>
+            <p class="record-date">{{ vaccination.date_administered }}</p>
+            {% if vaccination.next_due_date %}
+            <p class="next-due">Due: {{ vaccination.next_due_date }}</p>
+            {% endif %}
+            {% if vaccination.notes %}
+            <p class="record-notes">{{ vaccination.notes }}</p>
+            {% endif %}
+            {% if vaccination.certificate %}
+            <a href="{{ url_for('photos.uploaded_file', filename='medical_records/' + vaccination.certificate.filename) }}" target="_blank" class="record-link">Certificate</a>
+            {% endif %}
+            <div class="record-box-actions">
+                <a href="{{ url_for('medical.edit_vaccination', dog_id=dog.id, vaccination_id=vaccination.id) }}">Edit</a>
+                <a href="{{ url_for('medical.delete_vaccination', dog_id=dog.id, vaccination_id=vaccination.id) }}" class="delete" onclick="return confirm('Delete this vaccination record?');">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-content">No vaccination records yet.</p>
+    {% endif %}
+
+    <div class="upload-section">
+        <h4>Add Vaccination</h4>
+        <form method="POST" action="{{ url_for('medical.add_vaccination', dog_id=dog.id) }}">
+            <select name="vaccine_type" required>
+                <option value="">Select Vaccine</option>
+                <option value="Rabies">Rabies</option>
+                <option value="DHPP">DHPP (Distemper, Hepatitis, Parainfluenza, Parvovirus)</option>
+                <option value="Bordetella">Bordetella (Kennel Cough)</option>
+                <option value="Leptospirosis">Leptospirosis</option>
+                <option value="Lyme Disease">Lyme Disease</option>
+                <option value="Canine Influenza">Canine Influenza</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="date" name="date_administered" required>
+            <input type="date" name="next_due_date" placeholder="Next due date">
+            <input type="text" name="notes" placeholder="Notes">
+            <select name="certificate_id">
+                <option value="">Link Certificate (optional)</option>
+                {% for record in medical_records %}
+                <option value="{{ record.id }}">{{ record.original_filename }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Add Vaccination</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const photos = [
+        {% for photo in photos %}
+        {
+            url: "{{ url_for('photos.uploaded_file', filename='dog_photos/' + photo.filename) }}",
+            caption: "{{ photo.caption or '' }}"
+        },
+        {% endfor %}
+    ];
+
+    function editPhotoCaption(photoId, caption, takenDate) {
+        document.getElementById('edit-photo-id').value = photoId;
+        document.getElementById('edit-caption').value = caption;
+        document.getElementById('edit-taken-date').value = takenDate;
+        document.getElementById('photo-edit-form').action = '/update_photo/' + photoId;
+        document.getElementById('photo-edit-modal').style.display = 'flex';
+    }
+
+    function closePhotoEditModal() {
+        document.getElementById('photo-edit-modal').style.display = 'none';
+    }
+</script>
+{% endblock %}

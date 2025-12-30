@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="top-actions">
+    {% if current_user.role in ['admin', 'doctor'] %}
+    <a href="{{ url_for('dogs.add_dog') }}" class="btn btn-primary">Add New Dog</a>
+    {% endif %}
+</div>
+
+{% if alerts %}
+<div class="vaccination-alerts">
+    <h3>Upcoming Vaccinations</h3>
+    <ul>
+        {% for alert in alerts %}
+        <li>
+            <strong>{{ alert.vaccine_type }}</strong> for
+            <a href="{{ url_for('dogs.dog_detail', dog_id=alert.dog_id) }}">{{ alert.dog.name }}</a>
+            due on {{ alert.next_due_date }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="dog-grid">
+    {% for dog in dogs %}
+    <div class="dog-card">
+        <a href="{{ url_for('dogs.dog_detail', dog_id=dog.id) }}">
+            {% if dog.primary_photo %}
+            <img src="{{ url_for('photos.uploaded_file', filename='dog_photos/thumb_sm_' + dog.primary_photo.filename) }}" alt="{{ dog.name }}">
+            {% else %}
+            <div class="placeholder-image">
+                <span>No Photo</span>
+            </div>
+            {% endif %}
+            <div class="dog-card-body">
+                <h3>{{ dog.name }}</h3>
+                <p>{{ dog.breed or 'Unknown breed' }}</p>
+                <p>{{ dog.age }}</p>
+                <p><span class="status-{{ dog.status.lower() }}">{{ dog.status }}</span></p>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

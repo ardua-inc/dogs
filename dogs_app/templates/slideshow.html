@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Slideshow - Comanche Dogs{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/slideshow.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="slideshow-header">
+    <h2>
+        {% if mode == 'dog' and dog %}
+        {{ dog.name }} - Photo Slideshow
+        {% else %}
+        All Dogs - Photo Slideshow
+        {% endif %}
+    </h2>
+    <div class="slideshow-controls-top">
+        <button id="start-slideshow" class="btn">Start Slideshow</button>
+        {% if mode == 'dog' and dog %}
+        <a href="{{ url_for('dogs.dog_detail', dog_id=dog.id) }}" class="btn btn-secondary">Back to Dog</a>
+        {% else %}
+        <a href="{{ url_for('dogs.index') }}" class="btn btn-secondary">Back to Home</a>
+        {% endif %}
+    </div>
+</div>
+
+{% if photos %}
+<div class="slideshow-gallery">
+    {% for photo in photos %}
+    <div class="gallery-item" data-index="{{ loop.index0 }}">
+        <img src="{{ url_for('photos.uploaded_file', filename='dog_photos/thumb_md_' + photo.filename) }}"
+             alt="{{ photo.caption or 'Photo' }}"
+             loading="lazy">
+        {% if photo.caption %}
+        <p class="gallery-caption">{{ photo.caption }}</p>
+        {% endif %}
+        {% if mode == 'all' %}
+        <p class="gallery-dog-name">{{ photo.dog.name }}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="no-content">No photos available for slideshow.</p>
+{% endif %}
+
+<!-- Fullscreen Slideshow Overlay -->
+<div id="slideshow-overlay" class="slideshow-overlay">
+    <div class="slideshow-container">
+        <img id="slideshow-image" src="" alt="">
+        <div id="slideshow-caption" class="slideshow-caption"></div>
+        <div id="slideshow-counter" class="slideshow-counter"></div>
+        <div id="slideshow-progress" class="slideshow-progress">
+            <div id="slideshow-progress-bar" class="slideshow-progress-bar"></div>
+        </div>
+    </div>
+
+    <div class="slideshow-nav">
+        <button id="prev-btn" class="nav-btn prev-btn">&#10094;</button>
+        <button id="next-btn" class="nav-btn next-btn">&#10095;</button>
+    </div>
+
+    <div class="slideshow-toolbar">
+        <button id="play-pause-btn" class="toolbar-btn" title="Play/Pause">
+            <span id="play-icon">&#9658;</span>
+            <span id="pause-icon" style="display:none;">&#10074;&#10074;</span>
+        </button>
+        <select id="timing-select" class="toolbar-select" title="Slide Duration">
+            <option value="3000">3 sec</option>
+            <option value="5000" selected>5 sec</option>
+            <option value="10000">10 sec</option>
+        </select>
+        <select id="transition-select" class="toolbar-select" title="Transition">
+            <option value="fade" selected>Fade</option>
+            <option value="slide">Slide</option>
+            <option value="none">None</option>
+        </select>
+        <button id="close-btn" class="toolbar-btn" title="Close">&#10005;</button>
+    </div>
+</div>
+
+<script>
+    const slideshowPhotos = [
+        {% for photo in photos %}
+        {
+            url: "{{ url_for('photos.uploaded_file', filename='dog_photos/' + photo.filename) }}",
+            thumbUrl: "{{ url_for('photos.uploaded_file', filename='dog_photos/thumb_lg_' + photo.filename) }}",
+            caption: "{{ photo.caption or '' }}",
+            dogName: "{{ photo.dog.name if mode == 'all' else '' }}"
+        },
+        {% endfor %}
+    ];
+</script>
+<script src="{{ url_for('static', filename='js/slideshow.js') }}"></script>
+{% endblock %}

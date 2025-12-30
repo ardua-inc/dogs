@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="top-actions">
+    <a href="{{ url_for('admin.manage_users') }}" class="btn btn-light">Back to Manage Users</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Register New User</h3>
+    </div>
+    <form method="POST">
+        <div class="form-row">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div>
+                <label for="role">Role:</label>
+                <select id="role" name="role">
+                    {% for role in roles %}
+                    <option value="{{ role }}">{{ role|capitalize }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+            </div>
+        </div>
+        <label for="full_name">Full Name:</label>
+        <input type="text" id="full_name" name="full_name">
+        <button type="submit" class="btn btn-primary">Register User</button>
+    </form>
+</div>
+{% endblock %}

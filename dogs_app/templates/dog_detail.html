@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="top-actions">
+    {% if current_user.role in ['admin', 'doctor'] %}
+    <a href="{{ url_for('dogs.edit_dog', dog_id=dog.id) }}" class="btn btn-primary">Edit Dog</a>
+    {% endif %}
+    {% if photos %}
+    <a href="{{ url_for('photos.dog_slideshow', dog_id=dog.id) }}" class="btn btn-secondary">View Slideshow</a>
+    {% endif %}
+    <a href="{{ url_for('dogs.index') }}" class="btn btn-light">Back to All Dogs</a>
+</div>
+
+<!-- Dog Info Card -->
+<div class="card">
+    <div class="dog-info-card">
+        <div class="dog-primary-photo">
+            {% if dog.primary_photo %}
+            <img src="{{ url_for('photos.uploaded_file', filename='dog_photos/thumb_md_' + dog.primary_photo.filename) }}"
+                 alt="{{ dog.name }}"
+                 onclick="openLightbox(0)">
+            {% else %}
+            <div class="placeholder-image">No Photo</div>
+            {% endif %}
+        </div>
+        <div class="dog-details">
+            <h2>{{ dog.name }}</h2>
+            <div class="dog-details-grid">
+                <div class="dog-detail-item">
+                    <label>Breed</label>
+                    <span>{{ dog.breed or 'Unknown' }}</span>
+                </div>
+                <div class="dog-detail-item">
+                    <label>Status</label>
+                    <span class="status-{{ dog.status.lower() }}">{{ dog.status }}</span>
+                </div>
+                <div class="dog-detail-item">
+                    <label>Birth Date</label>
+                    <span>{{ dog.birthdate or 'Unknown' }}</span>
+                </div>
+                {% if next_vaccination %}
+                <div class="dog-detail-item">
+                    <label>Next Vaccination</label>
+                    <span class="next-due">{{ next_vaccination.vaccine_type }} - {{ next_vaccination.next_due_date }}</span>
+                </div>
+                {% endif %}
+                <div class="dog-detail-item">
+                    <label>Age</label>
+                    <span>{{ dog.age }}</span>
+                </div>
+                {% if dog.microchip_id %}
+                <div class="dog-detail-item">
+                    <label>Microchip</label>
+                    <span>{{ dog.microchip_company }}{% if dog.microchip_company %}: {% endif %}{{ dog.microchip_id }}</span>
+                </div>
+                {% endif %}
+                {% if dog.deathdate %}
+                <div class="dog-detail-item">
+                    <label>Death Date</label>
+                    <span>{{ dog.deathdate }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Photos Card -->
+<div class="card">
+    <div class="card-header">
+        <h3>Photos</h3>
+    </div>
+    {% if photos %}
+    <div class="photo-gallery">
+        {% for photo in photos %}
+        <div class="photo-item {% if photo.is_primary %}primary{% endif %}">
+            <img src="{{ url_for('photos.uploaded_file', filename='dog_photos/thumb_md_' + photo.filename) }}"
+                 alt="{{ photo.original_filename }}"
+                 onclick="openLightbox({{ loop.index0 }})"
+                 loading="lazy">
+            {% if photo.is_primary %}
+            <span class="primary-badge">Primary</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-content">No photos yet.</p>
+    {% endif %}
+</div>
+
+<!-- Vaccinations Card -->
+<div class="card">
+    <div class="card-header">
+        <h3>Vaccinations</h3>
+    </div>
+    {% if vaccinations %}
+    <div class="record-grid">
+        {% for vaccination in vaccinations|sort(attribute='next_due_date', reverse=false) %}
+        <div class="record-box">
+            <h4>{{ vaccination.vaccine_type }}</h4>
+            <p class="record-date">{{ vaccination.date_administered }}</p>
+            {% if vaccination.next_due_date %}
+            <p class="next-due">Due: {{ vaccination.next_due_date }}</p>
+            {% endif %}
+            {% if vaccination.notes %}
+            <p class="record-notes">{{ vaccination.notes }}</p>
+            {% endif %}
+            {% if vaccination.certificate %}
+            <a href="{{ url_for('photos.uploaded_file', filename='medical_records/' + vaccination.certificate.filename) }}" target="_blank" class="record-link">Certificate</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-content">No vaccination records.</p>
+    {% endif %}
+</div>
+
+<!-- Medical Records Card -->
+<div class="card">
+    <div class="card-header">
+        <h3>Medical Records</h3>
+    </div>
+    {% if medical_records %}
+    <div class="record-grid">
+        {% for record in medical_records|sort(attribute='record_date', reverse=true) %}
+        <div class="record-box">
+            {% if record.category %}
+            <span class="category-badge">{{ record.category }}</span>
+            {% endif %}
+            <h4><a href="{{ url_for('photos.uploaded_file', filename='medical_records/' + record.filename) }}" target="_blank">{{ record.original_filename }}</a></h4>
+            {% if record.description %}
+            <p class="record-notes">{{ record.description }}</p>
+            {% endif %}
+            <p class="record-date">{{ record.record_date }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-content">No medical records.</p>
+    {% endif %}
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox">
+    <span class="close" onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-img" src="">
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+    <a class="prev" onclick="changeImage(-1)">&#10094;</a>
+    <a class="next" onclick="changeImage(1)">&#10095;</a>
+</div>
+
+<script>
+    const photos = [
+        {% for photo in photos %}
+        {
+            url: "{{ url_for('photos.uploaded_file', filename='dog_photos/' + photo.filename) }}",
+            caption: "{{ photo.caption or '' }}"
+        },
+        {% endfor %}
+    ];
+</script>
+{% endblock %}

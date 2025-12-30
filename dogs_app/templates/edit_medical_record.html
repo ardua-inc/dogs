@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="top-actions">
+    <a href="{{ url_for('dogs.edit_dog', dog_id=dog_id) }}" class="btn btn-light">Back</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Edit Medical Record</h3>
+    </div>
+    <p>Current file: <strong>{{ record.original_filename }}</strong></p>
+
+    <form method="POST" enctype="multipart/form-data">
+        <label for="record">Replace File (optional):</label>
+        <input type="file" id="record" name="record" accept=".txt,.pdf,.png,.jpg,.jpeg">
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" value="{{ record.description or '' }}" placeholder="Description">
+
+        <div class="form-row">
+            <div>
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <option value="">Select Category</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat }}" {% if record.category == cat %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="record_date">Record Date:</label>
+                <input type="date" id="record_date" name="record_date" value="{{ record.record_date or '' }}">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Record</button>
+    </form>
+</div>
+{% endblock %}

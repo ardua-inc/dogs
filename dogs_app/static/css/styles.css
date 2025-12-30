@@ -1,0 +1,845 @@
+/* Base Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e9ecef;
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background-color: #343a40;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.header-link {
+    color: white;
+    text-decoration: none;
+}
+
+.header-link:hover {
+    text-decoration: underline;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* User Menu */
+.user-menu {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.user-menu span {
+    font-size: 14px;
+}
+
+.user-menu:hover .dropdown {
+    display: block;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    right: 0;
+    min-width: 160px;
+    z-index: 101;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.dropdown a {
+    color: #333;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+}
+
+.dropdown a:hover {
+    background-color: #f8f9fa;
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Flash Messages */
+.flash-messages {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border: 1px solid #c3e6cb;
+}
+
+.flash-messages p {
+    margin: 5px 0;
+}
+
+/* Cards */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn-primary {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-light {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* Top Actions Bar */
+.top-actions {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Dog Info Card */
+.dog-info-card {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.dog-primary-photo {
+    min-width: 150px;
+    max-width: 200px;
+}
+
+.dog-primary-photo img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 3px solid #dee2e6;
+}
+
+.dog-primary-photo img:hover {
+    border-color: #17a2b8;
+}
+
+.dog-primary-photo .placeholder-image {
+    width: 150px;
+    height: 120px;
+    border-radius: 6px;
+}
+
+.dog-details {
+    flex: 1;
+}
+
+.dog-details h2 {
+    margin: 0 0 15px 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.dog-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 40px;
+}
+
+.dog-detail-item label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.dog-detail-item span {
+    color: #555;
+    font-size: 15px;
+}
+
+/* Status Colors */
+.status-living,
+.dog-detail-item .status-living {
+    color: #28a745 !important;
+    font-weight: 600;
+}
+
+.status-deceased,
+.dog-detail-item .status-deceased {
+    color: #dc3545 !important;
+    font-weight: 600;
+}
+
+.dog-detail-item .next-due {
+    color: #28a745 !important;
+    font-weight: 500;
+}
+
+/* Photo Gallery */
+.photo-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.photo-item {
+    position: relative;
+    width: 150px;
+}
+
+.photo-item img {
+    width: 150px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 3px solid #dee2e6;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.photo-item img:hover {
+    border-color: #17a2b8;
+}
+
+.photo-item.primary img {
+    border-color: #28a745;
+}
+
+.primary-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: #28a745;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 3px;
+}
+
+.photo-actions {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.photo-actions a {
+    color: #17a2b8;
+    text-decoration: none;
+}
+
+.photo-actions a:hover {
+    text-decoration: underline;
+}
+
+.photo-actions a.delete {
+    color: #dc3545;
+}
+
+/* Record Items (Vaccinations, Medical Records) */
+.record-item {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.record-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+.record-info p {
+    margin: 3px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.record-info .next-due {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.record-info .category-badge {
+    display: inline-block;
+    background-color: #17a2b8;
+    color: white;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-right: 8px;
+}
+
+.record-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* Record Grid (for vaccinations/medical records as boxes) */
+.record-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.record-box {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 15px;
+    min-width: 180px;
+}
+
+.record-box h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.record-box h4 a {
+    color: #333;
+    text-decoration: none;
+}
+
+.record-box h4 a:hover {
+    color: #17a2b8;
+}
+
+.record-box p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.record-box .record-date {
+    color: #666;
+}
+
+.record-box .next-due {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.record-box .record-notes {
+    font-style: italic;
+    color: #666;
+}
+
+.record-box .record-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #17a2b8;
+    text-decoration: none;
+}
+
+.record-box .record-link:hover {
+    text-decoration: underline;
+}
+
+.record-box .category-badge {
+    display: inline-block;
+    background-color: #17a2b8;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.record-box-actions {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+}
+
+.record-box-actions a {
+    color: #17a2b8;
+    text-decoration: none;
+}
+
+.record-box-actions a:hover {
+    text-decoration: underline;
+}
+
+.record-box-actions a.delete {
+    color: #dc3545;
+}
+
+/* Dog Grid (Home Page) */
+.dog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.dog-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dog-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dog-card a {
+    text-decoration: none;
+    color: #333;
+}
+
+.dog-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: contain;
+    background-color: #f8f9fa;
+}
+
+.dog-card-body {
+    padding: 15px;
+}
+
+.dog-card h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+}
+
+.dog-card p {
+    margin: 3px 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 160px;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Vaccination Alerts */
+.vaccination-alerts {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border: 1px solid #ffeeba;
+}
+
+.vaccination-alerts h3 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+}
+
+.vaccination-alerts ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.vaccination-alerts a {
+    color: #533f03;
+    font-weight: 600;
+}
+
+/* Forms */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 500px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.form-row > * {
+    flex: 1;
+    min-width: 150px;
+}
+
+label {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: -8px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+input[type="file"],
+select,
+textarea {
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.15);
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Upload Section */
+.upload-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.upload-section h4 {
+    margin: 0 0 15px 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.upload-section form {
+    max-width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.upload-section input,
+.upload-section select {
+    flex: 1;
+    min-width: 150px;
+}
+
+.upload-section button {
+    flex-shrink: 0;
+}
+
+/* Tables (for manage users, etc.) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+th, td {
+    border-bottom: 1px solid #dee2e6;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: #f8f9fa;
+}
+
+td a {
+    color: #17a2b8;
+    text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 85%;
+    object-fit: contain;
+}
+
+.lightbox-caption {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    max-width: 80%;
+}
+
+.lightbox .close,
+.lightbox .prev,
+.lightbox .next {
+    position: absolute;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    user-select: none;
+    padding: 10px;
+    transition: opacity 0.2s;
+}
+
+.lightbox .close:hover,
+.lightbox .prev:hover,
+.lightbox .next:hover {
+    opacity: 0.7;
+}
+
+.lightbox .close {
+    top: 20px;
+    right: 30px;
+}
+
+.lightbox .prev {
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.lightbox .next {
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+
+.modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    max-width: 450px;
+    width: 90%;
+    position: relative;
+}
+
+.modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal-content h3 {
+    margin: 0 0 20px 0;
+}
+
+/* Auth Container */
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* No Content Message */
+.no-content {
+    color: #666;
+    font-style: italic;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    nav {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .dog-info-card {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .dog-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+    .record-item {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .record-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}

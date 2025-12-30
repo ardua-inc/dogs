@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="top-actions">
+    <a href="{{ url_for('admin.register') }}" class="btn btn-primary">Add New User</a>
+    <a href="{{ url_for('dogs.index') }}" class="btn btn-light">Back to Dogs</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Manage Users</h3>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <form method="POST">
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <td><input type="text" name="username" value="{{ user.username }}" required></td>
+                    <td>
+                        <select name="role">
+                            {% for role in roles %}
+                            <option value="{{ role }}" {{ 'selected' if user.role == role else '' }}>{{ role|capitalize }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td><input type="text" name="full_name" value="{{ user.full_name or '' }}"></td>
+                    <td><input type="email" name="email" value="{{ user.email or '' }}"></td>
+                    <td><input type="checkbox" name="is_active" {{ 'checked' if user.is_active else '' }}></td>
+                    <td>
+                        <button type="submit" name="action" value="edit" class="btn btn-sm btn-primary">Save</button>
+                        {% if user.id != current_user.id %}
+                        <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger" onclick="return confirm('Delete this user?');">Delete</button>
+                        {% endif %}
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Reset User Password</h3>
+    </div>
+    <form method="POST">
+        <div class="form-row">
+            <div>
+                <label for="user_id">Select User:</label>
+                <select name="user_id" id="user_id" required>
+                    <option value="">Select User</option>
+                    {% for user in users %}
+                    {% if user.id != current_user.id %}
+                    <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="new_password">New Password:</label>
+                <input type="password" id="new_password" name="new_password" placeholder="New Password" required minlength="6">
+            </div>
+        </div>
+        <button type="submit" name="action" value="reset_password" class="btn btn-primary">Reset Password</button>
+    </form>
+</div>
+{% endblock %}

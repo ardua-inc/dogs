@@ -1,0 +1,289 @@
+/* Slideshow Styles */
+
+.slideshow-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.slideshow-header h2 {
+    margin: 0;
+}
+
+.slideshow-controls-top {
+    display: flex;
+    gap: 10px;
+}
+
+/* Gallery Grid */
+.slideshow-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.gallery-item {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gallery-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.gallery-caption,
+.gallery-dog-name {
+    padding: 8px 12px;
+    margin: 0;
+    font-size: 13px;
+}
+
+.gallery-caption {
+    color: #666;
+}
+
+.gallery-dog-name {
+    font-weight: 600;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+/* Fullscreen Slideshow Overlay */
+.slideshow-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 2000;
+    flex-direction: column;
+}
+
+.slideshow-overlay.active {
+    display: flex;
+}
+
+.slideshow-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+#slideshow-image {
+    max-width: 90%;
+    max-height: 80vh;
+    object-fit: contain;
+    transition: opacity 0.5s ease;
+}
+
+#slideshow-image.fade-out {
+    opacity: 0;
+}
+
+#slideshow-image.slide-out-left {
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#slideshow-image.slide-out-right {
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.slideshow-caption {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    max-width: 80%;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.slideshow-counter {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 16px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px 15px;
+    border-radius: 20px;
+}
+
+/* Progress Bar */
+.slideshow-progress {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.slideshow-progress-bar {
+    height: 100%;
+    background: white;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+/* Navigation Buttons */
+.slideshow-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    pointer-events: none;
+}
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 36px;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+    pointer-events: auto;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Toolbar */
+.slideshow-toolbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.toolbar-btn {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    font-size: 18px;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+    min-width: 50px;
+}
+
+.toolbar-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.toolbar-select {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.toolbar-select option {
+    background: #333;
+    color: white;
+}
+
+#close-btn {
+    position: absolute;
+    right: 20px;
+}
+
+/* Touch/Swipe Indicator */
+.swipe-hint {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    animation: fadeOut 3s forwards;
+}
+
+@keyframes fadeOut {
+    0%, 70% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .slideshow-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .gallery-item img {
+        height: 140px;
+    }
+
+    #slideshow-image {
+        max-width: 100%;
+        max-height: 70vh;
+    }
+
+    .nav-btn {
+        font-size: 28px;
+        padding: 10px 15px;
+    }
+
+    .slideshow-toolbar {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px 15px;
+    }
+
+    .slideshow-caption {
+        font-size: 14px;
+        bottom: 100px;
+    }
+
+    .slideshow-progress {
+        bottom: 80px;
+    }
+}

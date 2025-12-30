@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="top-actions">
+    <a href="{{ url_for('dogs.edit_dog', dog_id=dog.id) }}" class="btn btn-light">Back to {{ dog.name }}</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Edit Vaccination for {{ dog.name }}</h3>
+    </div>
+    <form method="POST">
+        <label for="vaccine_type">Vaccine Type:</label>
+        <select id="vaccine_type" name="vaccine_type" required>
+            <option value="">Select Vaccine</option>
+            {% for vtype in vaccine_types %}
+            <option value="{{ vtype }}" {% if vaccination.vaccine_type == vtype %}selected{% endif %}>{{ vtype }}</option>
+            {% endfor %}
+            {% if vaccination.vaccine_type and vaccination.vaccine_type not in vaccine_types %}
+            <option value="{{ vaccination.vaccine_type }}" selected>{{ vaccination.vaccine_type }}</option>
+            {% endif %}
+        </select>
+
+        <div class="form-row">
+            <div>
+                <label for="date_administered">Date Administered:</label>
+                <input type="date" id="date_administered" name="date_administered" value="{{ vaccination.date_administered }}" required>
+            </div>
+            <div>
+                <label for="next_due_date">Next Due Date:</label>
+                <input type="date" id="next_due_date" name="next_due_date" value="{{ vaccination.next_due_date or '' }}">
+            </div>
+        </div>
+
+        <label for="notes">Notes:</label>
+        <input type="text" id="notes" name="notes" value="{{ vaccination.notes or '' }}" placeholder="Notes">
+
+        <label for="certificate_id">Link Certificate:</label>
+        <select id="certificate_id" name="certificate_id">
+            <option value="">No Certificate</option>
+            {% for record in medical_records %}
+            <option value="{{ record.id }}" {% if vaccination.certificate_id == record.id %}selected{% endif %}>{{ record.original_filename }} ({{ record.record_date }})</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn btn-primary">Update Vaccination</button>
+    </form>
+</div>
+{% endblock %}

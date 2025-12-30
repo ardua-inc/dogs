@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Add New Dog</h2>
+<form method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="breed">Breed:</label>
+    <input type="text" id="breed" name="breed">
+    <label for="birthdate">Birth Date:</label>
+    <input type="date" id="birthdate" name="birthdate">
+    <label for="deathdate">Death Date:</label>
+    <input type="date" id="deathdate" name="deathdate">
+    <button type="submit">Add Dog</button>
+</form>
+{% endblock %}
