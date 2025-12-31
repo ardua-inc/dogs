@@ -81,16 +81,14 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-    environment: production
 
     steps:
       - name: Deploy to production
         run: |
-          echo "Deployment triggered for commit ${{ github.sha }}"
-          echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
-          # Add your deployment commands here, e.g.:
-          # - SSH to server and run docker-compose pull && docker-compose up -d
-          # - Trigger a webhook
-          # - Use a deployment service
+          cd /srv/containers/dogs
+          docker compose pull
+          docker compose up -d --remove-orphans
+          docker image prune -f
+          echo "Deployed commit ${{ github.sha }}"
