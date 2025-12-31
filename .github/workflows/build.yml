@@ -12,7 +12,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: jimatardua/dogs
+  IMAGE_NAME: ardua-inc/dogs
 
 jobs:
   test:

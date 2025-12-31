@@ -38,7 +38,7 @@ sudo ./svc.sh uninstall
 ```
 
 To get the remove token:
-1. Go to https://github.com/organizations/jimatardua/settings/actions/runners
+1. Go to https://github.com/organizations/ardua-inc/settings/actions/runners
 2. Click on the runner → "Remove" → Copy the token
 
 ### Step 2: Set up runner on frink (containerized)
@@ -63,7 +63,7 @@ services:
     environment:
       - RUNNER_NAME=frink-runner
       - RUNNER_SCOPE=org
-      - ORG_NAME=jimatardua
+      - ORG_NAME=ardua-inc
       - ACCESS_TOKEN=${GITHUB_PAT}
       - RUNNER_WORKDIR=/tmp/runner/work
       - LABELS=self-hosted,linux,x64,docker
@@ -104,7 +104,7 @@ docker compose logs -f  # Watch for successful registration
 
 ### Step 5: Verify runner is registered
 
-Go to https://github.com/organizations/jimatardua/settings/actions/runners
+Go to https://github.com/organizations/ardua-inc/settings/actions/runners
 
 You should see "frink-runner" with status "Idle".
 
@@ -112,7 +112,7 @@ You should see "frink-runner" with status "Idle".
 
 ## Part 2: Set up GHCR Authentication on frink
 
-The runner needs to pull images from ghcr.io/jimatardua.
+The runner needs to pull images from ghcr.io/ardua-inc.
 
 ```bash
 # SSH to frink
@@ -120,7 +120,7 @@ ssh frink.ardua.lan
 
 # Login to GitHub Container Registry
 # Use your GitHub username and a PAT with read:packages scope
-echo "ghp_your_token" | docker login ghcr.io -u jimatardua --password-stdin
+echo "ghp_your_token" | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
 ```
 
 This saves credentials to `~/.docker/config.json` which Docker will use for pulls.
@@ -354,7 +354,7 @@ docker compose exec web flask db upgrade  # Ensure migrations ran
 
 ```bash
 # Re-authenticate
-echo "ghp_your_token" | docker login ghcr.io -u jimatardua --password-stdin
+echo "ghp_your_token" | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
 ```
 
 ### Database connection issues

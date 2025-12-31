@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: ghcr.io/jimatardua/dogs:latest
+    image: ghcr.io/ardua-inc/dogs:latest
     container_name: dogs-web
     restart: unless-stopped
     env_file: .env
