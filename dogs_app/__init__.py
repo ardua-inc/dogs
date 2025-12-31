@@ -39,12 +39,14 @@ def create_app(config_name=None):
     from dogs_app.routes.photos import photos_bp
     from dogs_app.routes.medical import medical_bp
     from dogs_app.routes.admin import admin_bp
+    from dogs_app.routes.about import about_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(dogs_bp)
     app.register_blueprint(photos_bp)
     app.register_blueprint(medical_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(about_bp)
 
     # User loader for Flask-Login
     from dogs_app.models import User

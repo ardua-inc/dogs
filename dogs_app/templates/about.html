@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}About - Comanche Dogs{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <h2>About Comanche Dogs</h2>
+
+    <div class="about-section">
+        <h3>Version Information</h3>
+        <p><strong>Version:</strong> {{ version }}</p>
+    </div>
+
+    <div class="about-section">
+        <h3>About This Application</h3>
+        <p>Comanche Dogs is a dog management application for tracking dogs, their photos, medical records, and vaccination history.</p>
+    </div>
+
+    <div class="about-section">
+        <h3>Features</h3>
+        <ul>
+            <li>Dog profiles with photos and details</li>
+            <li>Photo galleries with slideshow mode</li>
+            <li>Medical record management</li>
+            <li>Vaccination tracking with due date reminders</li>
+            <li>Multi-user support with role-based access</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
