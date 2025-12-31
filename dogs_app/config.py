@@ -49,22 +49,9 @@ class ProductionConfig(Config):
     """Production configuration."""
     DEBUG = False
 
-    # Build PostgreSQL URL from individual environment variables
-    POSTGRES_USER = os.environ.get('POSTGRES_USER')
-    POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
-    POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'db')
-    POSTGRES_PORT = os.environ.get('POSTGRES_PORT', '5432')
-    POSTGRES_DB = os.environ.get('POSTGRES_DB', 'dogs')
-
-    if POSTGRES_USER and POSTGRES_PASSWORD:
-        SQLALCHEMY_DATABASE_URI = (
-            f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
-            f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
-        )
-    else:
-        # Fallback to DATABASE_URL or SQLite
-        SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-            f"sqlite:///{os.path.join(Config.BASE_DATA_PATH, 'dogs.db')}"
+    # SQLite database - simple and sufficient for small dataset
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        f"sqlite:///{os.path.join(Config.BASE_DATA_PATH, 'dogs.db')}"
 
 
 class TestingConfig(Config):

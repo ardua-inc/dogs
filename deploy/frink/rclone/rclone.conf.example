@@ -1,0 +1,18 @@
+# Rclone configuration for S3 backup
+# Copy this file to rclone.conf and fill in your credentials
+# See: https://rclone.org/s3/
+
+[s3]
+type = s3
+provider = AWS
+access_key_id = YOUR_ACCESS_KEY_ID
+secret_access_key = YOUR_SECRET_ACCESS_KEY
+region = us-west-2
+
+# Alternative: Use Backblaze B2 (cheaper for backups)
+# [s3]
+# type = s3
+# provider = B2
+# access_key_id = YOUR_B2_KEY_ID
+# secret_access_key = YOUR_B2_APPLICATION_KEY
+# endpoint = s3.us-west-002.backblazeb2.com
