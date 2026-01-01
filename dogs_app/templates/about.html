@@ -9,6 +9,7 @@
     <div class="about-section">
         <h3>Version Information</h3>
         <p><strong>Version:</strong> {{ version }}</p>
+        <p><strong>Build:</strong> {{ git_commit[:8] if git_commit != 'dev' else 'dev' }}</p>
     </div>
 
     <div class="about-section">
