@@ -2,6 +2,9 @@
 
 A Flask web application for managing dog records, photos, medical records, and vaccination schedules.
 
+## License
+MIT License © 2026 Ardua, Inc.
+
 ## Features
 
 - **Dog Management**: Track dogs with photos, breed, birthdate, microchip info, and status
