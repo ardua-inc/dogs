@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Changelog - Comanche Dogs{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <h2>Changelog</h2>
+    <p class="changelog-back"><a href="{{ url_for('about.about') }}">&larr; Back to About</a></p>
+
+    {% if entries is none %}
+    <div class="about-section">
+        <p>The changelog is not available on this server.</p>
+    </div>
+    {% elif not entries %}
+    <div class="about-section">
+        <p>No releases have been recorded yet.</p>
+    </div>
+    {% else %}
+    {% for entry in entries %}
+    <div class="about-section">
+        <h3>
+            {{ entry.version }}
+            {% if entry.date %}<span class="changelog-date">&mdash; {{ entry.date }}</span>{% endif %}
+            {% if entry.version == version %}<span class="changelog-current">current</span>{% endif %}
+        </h3>
+        {% if entry.items %}
+        <ul>
+            {% for item in entry.items %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No details recorded.</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

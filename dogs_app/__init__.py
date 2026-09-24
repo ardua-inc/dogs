@@ -7,6 +7,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
+# Semantic version - the single source of truth. Bump on every merge to main
+# and add a matching entry to CHANGELOG.md (tests enforce that they agree).
+__version__ = '2.0.2'
+
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()

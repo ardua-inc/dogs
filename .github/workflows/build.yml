@@ -31,10 +31,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # A failing test fails this job, which skips build and therefore deploy
       - name: Run tests
         run: |
-          pytest tests/ -v --cov=app --cov-report=term-missing
-        continue-on-error: true
+          pytest tests/ -v --cov=dogs_app --cov-report=term-missing
 
   build:
     needs: test
