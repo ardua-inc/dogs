@@ -2,19 +2,6 @@
 
 A Flask web application for managing dog records, photos, medical records, and vaccination schedules.
 
-## Versioning
-
-The version is defined once, as `__version__` in `dogs_app/__init__.py`, and
-displayed on the About page (clicking it opens the changelog). On every merge to
-`main`:
-
-1. Bump the patch number (`2.0.2` → `2.0.3`); minor/major bumps are deliberate
-2. Add a matching `## [x.y.z] - YYYY-MM-DD` entry at the top of `CHANGELOG.md`
-3. Tag the merge commit: `git tag vx.y.z && git push --tags`
-
-`tests/test_changelog.py` fails if the newest changelog entry doesn't match
-`__version__`.
-
 ## License
 MIT License © 2026 Ardua, Inc.
 
@@ -118,7 +105,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for full instructions.
 ### Quick Deploy
 
 Push to `main` branch triggers automatic deployment:
-1. GitHub Actions runs tests
+1. GitHub Actions runs tests (a failure stops the build and deploy)
 2. Builds Docker image → `ghcr.io/ardua-inc/dogs:latest`
 3. Self-hosted runner on frink pulls and restarts containers
 
