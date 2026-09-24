@@ -30,6 +30,9 @@ class Config:
     ALLOWED_IMAGE_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
     ALLOWED_DOCUMENT_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg'}
 
+    # Release notes shown from the About page
+    CHANGELOG_PATH = os.path.join(basedir, 'CHANGELOG.md')
+
     # Thumbnail sizes
     THUMB_SIZES = {
         'sm': (200, 200),

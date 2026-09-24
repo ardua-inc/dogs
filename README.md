@@ -2,6 +2,19 @@
 
 A Flask web application for managing dog records, photos, medical records, and vaccination schedules.
 
+## Versioning
+
+The version is defined once, as `__version__` in `dogs_app/__init__.py`, and
+displayed on the About page (clicking it opens the changelog). On every merge to
+`main`:
+
+1. Bump the patch number (`2.0.2` → `2.0.3`); minor/major bumps are deliberate
+2. Add a matching `## [x.y.z] - YYYY-MM-DD` entry at the top of `CHANGELOG.md`
+3. Tag the merge commit: `git tag vx.y.z && git push --tags`
+
+`tests/test_changelog.py` fails if the newest changelog entry doesn't match
+`__version__`.
+
 ## License
 MIT License © 2026 Ardua, Inc.
 
@@ -47,10 +60,10 @@ Dogs/
 │   │   ├── photos.py         # Photo management, slideshow
 │   │   ├── medical.py        # Medical records
 │   │   ├── admin.py          # User management
-│   │   └── about.py          # About page
+│   │   └── about.py          # About page and changelog view
 │   ├── templates/            # Jinja2 templates
 │   ├── static/               # CSS, JS, images
-│   └── utils/                # Image processing utilities
+│   └── utils/                # Image processing, changelog parsing
 ├── migrations/               # Flask-Migrate database migrations
 ├── tests/                    # pytest test suite
 ├── deploy/                   # Deployment configurations
@@ -58,6 +71,7 @@ Dogs/
 │   ├── sideshowbob/          # Nginx config
 │   └── RUNNER_GUIDE.md       # CI/CD documentation
 ├── .github/workflows/        # GitHub Actions CI/CD
+├── CHANGELOG.md              # Release history (shown in the app)
 ├── Dockerfile                # Container build
 ├── wsgi.py                   # WSGI entry point
 ├── gunicorn.conf.py          # Gunicorn configuration
@@ -144,9 +158,23 @@ pytest tests/ -v --cov=dogs_app --cov-report=term-missing
 | `/dog/<id>/edit` | Edit dog (admin/doctor) |
 | `/dog/<id>/slideshow` | Photo slideshow |
 | `/slideshow` | All dogs slideshow (random) |
-| `/about` | Version info |
+| `/about` | Version info (version links to changelog) |
+| `/about/changelog` | Release history from CHANGELOG.md |
 | `/login`, `/logout` | Authentication |
 | `/manage_users` | User admin (admin only) |
+
+## Versioning
+
+The version is defined once, as `__version__` in `dogs_app/__init__.py`, and
+displayed on the About page (clicking it opens the changelog). On every merge to
+`main`:
+
+1. Bump the patch number (`2.0.2` → `2.0.3`); minor/major bumps are deliberate
+2. Add a matching `## [x.y.z] - YYYY-MM-DD` entry at the top of `CHANGELOG.md`
+3. Tag the merge commit: `git tag vx.y.z && git push --tags`
+
+`tests/test_changelog.py` fails if the newest changelog entry doesn't match
+`__version__`.
 
 ## License
 

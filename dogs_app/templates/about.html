@@ -8,7 +8,7 @@
 
     <div class="about-section">
         <h3>Version Information</h3>
-        <p><strong>Version:</strong> {{ version }}</p>
+        <p><strong>Version:</strong> <a href="{{ url_for('about.changelog') }}" class="version-link" title="View changelog">{{ version }}</a></p>
         <p><strong>Build:</strong> {{ git_commit[:8] if git_commit != 'dev' else 'dev' }}</p>
     </div>
 

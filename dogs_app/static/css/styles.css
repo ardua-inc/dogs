@@ -886,3 +886,32 @@ td a:hover {
 .about-section li {
     margin-bottom: 8px;
 }
+
+.version-link {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.version-link:hover {
+    color: #0056b3;
+}
+
+.changelog-date {
+    color: #6c757d;
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
+.changelog-current {
+    background: #e7f1ff;
+    color: #0056b3;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.75em;
+    font-weight: normal;
+    margin-left: 8px;
+}
+
+.changelog-back {
+    margin-bottom: 20px;
+}
