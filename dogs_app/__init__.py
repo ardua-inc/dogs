@@ -2,7 +2,7 @@
 Comanche Dogs - Flask Application Factory
 """
 import os
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
@@ -51,6 +51,13 @@ def create_app(config_name=None):
     app.register_blueprint(medical_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(about_bp)
+
+    # Browsers (Safari in particular) request /favicon.ico at the site root
+    # directly, regardless of <link> tags, so answer it without a login.
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(app.static_folder, 'favicon.ico',
+                                   mimetype='image/vnd.microsoft.icon')
 
     # User loader for Flask-Login
     from dogs_app.models import User
