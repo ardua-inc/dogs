@@ -142,3 +142,29 @@ class TestMedicalRoutes:
                 'notes': 'Annual'
             }, follow_redirects=True)
             assert response.status_code == 200
+
+
+class TestFavicon:
+    """Tests for favicon serving."""
+
+    def test_favicon_ico_served_at_root_without_login(self, client):
+        """/favicon.ico answers 200 with an image, even when logged out."""
+        response = client.get('/favicon.ico')
+        assert response.status_code == 200
+        assert response.mimetype.startswith('image/')
+        assert len(response.data) > 0
+
+    @pytest.mark.parametrize('filename', [
+        'favicon.svg', 'favicon-32.png', 'apple-touch-icon.png',
+    ])
+    def test_favicon_static_files_served(self, client, filename):
+        """Every file the <link> tags point to is served as an image."""
+        response = client.get(f'/static/{filename}')
+        assert response.status_code == 200
+        assert response.mimetype.startswith('image/')
+
+    def test_base_page_links_favicon(self, client):
+        """Pages rendered from base.html carry the favicon link tags."""
+        response = client.get('/login')
+        assert b'rel="icon"' in response.data
+        assert b'rel="apple-touch-icon"' in response.data

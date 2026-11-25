@@ -4,6 +4,9 @@ All notable changes to Comanche Dogs. The version lives in `dogs_app/__init__.py
 (`__version__`) and is bumped by one patch level on every merge to `main`. Entries are shown on
 the About page, so write bullets as plain text (no Markdown formatting).
 
+## [2.0.3] - 2026-11-25
+- Add a favicon (orange paw print): favicon.ico at the site root plus SVG, 32 px PNG and Apple touch icon, linked from every page.
+
 ## [2.0.2] - 2026-09-24
 - Add CHANGELOG.md, move the version to dogs_app.__version__, and make the About page version link to a changelog view
 - CI: failing tests now block the image build and production deploy; coverage measured on dogs_app
